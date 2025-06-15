@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Gourishetty Rishitha</title>
+  <style>
+    body { margin: 0; font-family: Arial, sans-serif; background: #fff3e0; color: #333; }
+    header, footer { background: #6a1b9a; color: white; padding: 10px; text-align: center; }
+    nav a { margin: 0 10px; color: white; text-decoration: none; font-weight: bold; cursor: pointer; }
+    section { display: none; padding: 20px; max-width: 800px; margin: auto; }
+    .active { display: block; }
+    input, textarea, select, button { width: 100%; padding: 8px; margin: 5px 0; border-radius: 4px; border: 1px solid #ccc; }
+    button { background: #6a1b9a; color: white; border: none; cursor: pointer; }
+    ul { list-style: none; padding: 0; }
+    li { background: #f3e5f5; margin: 5px 0; padding: 8px; display: flex; justify-content: space-between; }
+    .product-card { background: #e1bee7; padding: 10px; margin: 5px 0; border-radius: 6px; }
+  </style>
+</head>
+<body>
+
+<header>
+  <h2>Gourishetty Rishitha</h2>
+  <nav>
+    <a onclick="show('about')">About</a>
+    <a onclick="show('projects')">Projects</a>
+    <a onclick="show('todo')">To-Do</a>
+    <a onclick="show('products')">Products</a>
+    <a onclick="show('contact')">Contact</a>
+  </nav>
+</header>
+
+<section id="about" class="active">
+  <h3>About Me</h3>
+  <p>I’m Gourishetty Rishitha, a creative front-end developer passionate about building responsive websites and user-friendly interfaces using HTML, CSS, and JavaScript.</p>
+</section>
+
+<section id="projects">
+  <h3>My Projects</h3>
+  <ul>
+    <li><strong>To-Do App:</strong> Add, delete tasks with local storage.</li>
+    <li><strong>Product Filter:</strong> Filter/search/sort product cards.</li>
+    <li><strong>Portfolio Site:</strong> Clean responsive personal profile.</li>
+  </ul>
+</section>
+
+<section id="todo">
+  <h3>To-Do List</h3>
+  <input id="task" placeholder="Enter task" />
+  <button onclick="add()">Add</button>
+  <ul id="tasks"></ul>
+</section>
+
+<section id="products">
+  <h3>Product Filter</h3>
+  <input id="search" placeholder="Search..." oninput="filter()" />
+  <select id="cat" onchange="filter()">
+    <option value="all">All</option>
+    <option value="electronics">Electronics</option>
+    <option value="fashion">Fashion</option>
+  </select>
+  <div id="list"></div>
+</section>
+
+<section id="contact">
+  <h3>Contact Me</h3>
+  <form onsubmit="alert('Message sent!'); return false;">
+    <input type="text" placeholder="Your Name" required />
+    <input type="email" placeholder="Your Email" required />
+    <textarea rows="4" placeholder="Your Message" required></textarea>
+    <button type="submit">Send</button>
+  </form>
+</section>
+
+<footer>© 2025 Gourishetty Rishitha</footer>
+
+<script>
+  const show = id => {
+    document.querySelectorAll('section').forEach(s => s.classList.remove('active'));
+    document.getElementById(id).classList.add('active');
+  };
+
+  // To-Do List
+  const tasks = [];
+  function add() {
+    const val = document.getElementById("task").value;
+    if (val) {
+      tasks.push(val);
+      document.getElementById("task").value = "";
+      render();
+    }
+  }
+  function render() {
+    const ul = document.getElementById("tasks");
+    ul.innerHTML = "";
+    tasks.forEach((t, i) => {
+      ul.innerHTML += `<li>${t} <button onclick="del(${i})">x</button></li>`;
+    });
+  }
+  function del(i) {
+    tasks.splice(i, 1);
+    render();
+  }
+
+  // Products
+  const products = [
+    { name: "Phone", category: "electronics", rating: 4.5 },
+    { name: "Laptop", category: "electronics", rating: 4.8 },
+    { name: "Shoes", category: "fashion", rating: 4.2 }
+  ];
+  function filter() {
+    const s = document.getElementById("search").value.toLowerCase();
+    const c = document.getElementById("cat").value;
+    const l = document.getElementById("list");
+    l.innerHTML = "";
+    products.filter(p =>
+      (c === "all" || p.category === c) && p.name.toLowerCase().includes(s)
+    ).forEach(p => {
+      l.innerHTML += `<div class="product-card">
+        <strong>${p.name}</strong><br>
+        Category: ${p.category}<br>
+        Rating: ${p.rating}
+      </div>`;
+    });
+  }
+  filter();
+</script>
+
+</body>
+</html>
